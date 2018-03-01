@@ -1,5 +1,6 @@
 import numpy as np
-from sklearn import preprocessing, cross_validation, neighbors
+from sklearn import preprocessing, neighbors
+from sklearn.model_selection import train_test_split
 import pandas as pd
 
 df = pd.read_csv('Data/breast-cancer-wisconsin.data')
@@ -11,7 +12,7 @@ X = np.array(df.drop(['class'], 1))
 y = np.array(df['class'])
 
 
-XTrain, XTest, yTrain, yTest = cross_validation.train_test_split(
+XTrain, XTest, yTrain, yTest = train_test_split(
     X, y, test_size=0.2)
 
 clf = neighbors.KNeighborsClassifier()
