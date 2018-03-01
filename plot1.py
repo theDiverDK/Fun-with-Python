@@ -2,11 +2,28 @@ from statistics import mean
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import style
+import random
 
 style.use('fivethirtyeight')
 
-xs = np.array([1, 2, 3, 4, 5, 6], dtype = np.float)
-ys = np.array([5, 4, 6, 5, 6, 7], dtype = np.float)
+#xs = np.array([1, 2, 3, 4, 5, 6], dtype=np.float)
+#ys = np.array([5, 4, 6, 5, 6, 7], dtype=np.float)
+
+
+def createDataset(hm, variance, step=2, correlation=False):
+    val = 1
+    ys = []
+    for i in range(hm):
+        y = val+random.randrange(-variance, variance)
+        ys.append(y)
+        if correlation and correlation == 'pos':
+            val += step
+        elif correlation and correlation == 'neg':
+            val -= step
+
+    xs = [i for i in range(len(ys))]
+
+    return np.array(xs, dtype=np.float), np.array(ys, dtype=np.float)
 
 
 def bestFitSlopeAndIntercept(xs, ys):
@@ -27,6 +44,8 @@ def coefficienOfDetermination(ysOriginal, ysLine):
     squaredErrorYMean = squaredError(ysOriginal, yMeanLine)
     return 1 - (squaredErrorRegression / squaredErrorYMean)
 
+
+xs, ys = createDataset(40, 40, 2, correlation='neg')
 
 m, b = bestFitSlopeAndIntercept(xs, ys)
 
