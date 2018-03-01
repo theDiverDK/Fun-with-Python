@@ -5,25 +5,42 @@ from matplotlib import style
 
 style.use('fivethirtyeight')
 
-xs = np.array([1,2,3,4,5,6], dtype = np.float64)
-ys = np.array([5,4,6,5,6,7], dtype = np.float64)
+xs = np.array([1, 2, 3, 4, 5, 6], dtype = np.float)
+ys = np.array([5, 4, 6, 5, 6, 7], dtype = np.float)
 
-def bestFitSlopeAndIntercept(xs,ys):
-    m = ( ((mean(xs) * mean(ys)) - mean(xs * ys)) / 
-           ( (mean(xs) ** 2) - mean(xs ** 2) ))
-    
+
+def bestFitSlopeAndIntercept(xs, ys):
+    m = (((mean(xs) * mean(ys)) - mean(xs * ys)) /
+         ((mean(xs) ** 2) - mean(xs ** 2)))
+
     b = mean(ys) - m * mean(xs)
     return m, b
 
-m, b = bestFitSlopeAndIntercept(xs,ys)
+
+def squaredError(ysOriginal, ysLine):
+    return sum((ysLine - ysOriginal) ** 2)
+
+
+def coefficienOfDetermination(ysOriginal, ysLine):
+    yMeanLine = [mean(ysOriginal) for y in ysOriginal]
+    squaredErrorRegression = squaredError(ysOriginal, ysLine)
+    squaredErrorYMean = squaredError(ysOriginal, yMeanLine)
+    return 1 - (squaredErrorRegression / squaredErrorYMean)
+
+
+m, b = bestFitSlopeAndIntercept(xs, ys)
 
 print(m, b)
 
 regressionLine = [(m * x + b) for x in xs]
 
+r2 = coefficienOfDetermination(ys, regressionLine)
+
+print(r2)
+
 plt.scatter(xs, ys)
 plt.plot(xs, regressionLine)
 plt.show()
 
-#plt.scatter(xs,ys)
-#plt.show()
+# plt.scatter(xs,ys)
+# plt.show()
