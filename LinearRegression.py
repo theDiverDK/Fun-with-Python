@@ -45,7 +45,7 @@ def coefficienOfDetermination(ysOriginal, ysLine):
     return 1 - (squaredErrorRegression / squaredErrorYMean)
 
 
-xs, ys = createDataset(40, 40, 2, correlation='neg')
+xs, ys = createDataset(40, 40, 2, correlation='pos')
 
 m, b = bestFitSlopeAndIntercept(xs, ys)
 
